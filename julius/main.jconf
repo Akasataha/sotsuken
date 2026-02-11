@@ -1,0 +1,8 @@
+-gram main
+-h hmmdefs_ptm_gid.binhmm
+-hlist logicalTri
+-input mic
+#-quiet
+-separatescore
+#-debug
+#-charconv utf-8 sjis

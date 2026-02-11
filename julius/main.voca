@@ -1,0 +1,58 @@
+% DIRECTION
+前        m a e
+正面      sh o u m e N
+後ろ      u sh i r o
+右        m i g i
+左        h i d a r i
+右折      u s e ts u
+左折      s a s e ts u
+
+% MOVE
+後退      k o u t a i
+停止      t e i sh i
+停車      t e i sh a
+止まって  t o m a q t e
+止まれ    t o m a r e
+ストップ  s u t o q p u
+ブレーキ  b u r e: k i
+前進      z e N sh i N
+進め      s u s u m e
+進んで    s u s u N d e
+進行      sh i N k o u
+
+% COMMAND_B
+スピード  s u p i: d o
+速度      s o k u d o
+角度      k a k u d o
+
+% COMMAND_A
+上げて    a g e t e
+上がれ    a g a r e
+アップ    a q p u
+下げて    s a g e t e
+下がれ    s a g a r e
+ダウン    d a u N
+1	i ch i
+2	n i
+3	s a N
+4	y o N
+4	sh i
+5	g o
+
+% SPEED
+加速      k a s o k u
+早く      h a y a k u
+減速      g e N s o k u
+ゆっくり  y u q k u r i
+
+% COMMAND
+開始      k a i sh i
+終了      sh u u ry o u
+
+% SITE
+して      sh i t e
+
+% NS_B
+<s>	silB
+% NS_E
+</s>	silE
