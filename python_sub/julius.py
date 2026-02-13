@@ -2,9 +2,9 @@ import re, asyncio
 
 
 cmd = [
-    r"/home/syamucat/Desktop/sotuken/main/julius/julius",
+    r"/home/syamucat/Desktop/sotsuken/julius/julius",
     "-C",
-    r"/home/syamucat/Desktop/sotuken/main/julius/main.jconf",
+    r"/home/syamucat/Desktop/sotsuken/julius/main.jconf",
 ]
 
 pattern_pass1best = re.compile(r"pass1_best:\s*(.*?)$", re.MULTILINE)

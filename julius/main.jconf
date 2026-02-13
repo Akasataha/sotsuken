@@ -6,3 +6,8 @@
 -separatescore
 #-debug
 #-charconv utf-8 sjis
+-pausesegment
+-lv 3000
+-zc 80
+-headmargin 200
+-tailmargin 300

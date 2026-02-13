@@ -107,9 +107,13 @@ anglep:{self.angle_power},widths:{self.width_s}
         try:
             while True:
                 dist = await queue.get()
-                if (dist < 30) and (self.width_m < WIDTH_MID):
-                    await self.breaking()
+                space=self.speed*1000
+                if (dist < space) and (self.width_m < WIDTH_MID):
+                    asyncio.create_task(self.breaking())
+                    SoundPlayer.play("burekiyo")
                     print(f"障害物発見:{dist:.1f}cm->ブレーキ")
+                else:
+                    print(f"test->{dist:.1f}")
 
         except asyncio.CancelledError:
             raise
@@ -126,60 +130,78 @@ anglep:{self.angle_power},widths:{self.width_s}
         if float(data.get("cmscore1", 0)) > 0.1:
             print("認識結果:", data.get("sentence1", "データなんかねぇよ"))
             sentence = data.get("sentence1")
+            say_file=""
             if search_command(sentence, ["終了"]):
-                pass  # self.mode=1
+                say_file="syuryo"
             elif search_command(sentence, ["開始"]):
-                pass  # SoundPlayer.play("niture")
+                say_file="kaishi"
             elif search_command(sentence, ["前進", "進め", "進んで", "進行"]):
+                say_file="zenshin"
                 if self.direction == 0:
                     self.direction = 1
                 else:
                     self.direction = 0
             elif search_command(sentence, ["後退"]):
+                say_file="koutai"
                 asyncio.create_task(self.back())
             elif search_command(sentence, ["停止", "停車", "止まって"]):
-                # SoundPlayer.play("theme")
+                say_file="teishi"
                 self.direction = 0
             elif search_command(sentence, ["ブレーキ", "ストップ", "止まれ"]):
+                say_file="bureki"
                 asyncio.create_task(self.breaking())
             elif search_command(sentence, ["前", "正面"]):
+                say_file="syomen"
                 self.angle = 0
             elif search_command(sentence, ["右", "右折"]):
+                say_file="migi"
                 if self.angle > 0:
                     self.angle_power += 0.25
                 else:
                     self.angle = 1
             elif search_command(sentence, ["左", "左折"]):
+                say_file="hidari"
                 if self.angle < 0:
                     self.angle_power += 0.25
                 else:
                     self.angle = -1
             elif search_command(sentence, ["角度"]):
                 if search_command(sentence, ["アップ", "上げて", "上がれ"]):
+                    say_file="kakudoage"
                     self.angle_power += 0.25
                 elif search_command(sentence, ["ダウン", "下げて", "下がれ"]):
+                    say_file="kakudosage"
                     self.angle_power -= 0.25
                 else:
                     for num in self.num_sp_s.keys():
                         if search_command(sentence, [num]):
+                            say_file=f"kakudo{num}"
                             self.angle_power = self.num_sp_s[num]
                             break
             elif search_command(sentence, ["スピード", "速度"]):
                 if search_command(sentence, ["アップ", "上げて", "上がれ"]):
-                    self.speed += 0.25
+                    say_file="sokudoage"
+                    self.speed += 0.1
                 elif search_command(sentence, ["ダウン", "下げて", "下がれ"]):
-                    self.speed -= 0.25
+                    say_file="sokudosage"
+                    self.speed -= 0.1
                 else:
                     for num in self.num_sp_m.keys():
                         if search_command(sentence, [num]):
+                            say_file=f"sokudo{num}"
                             self.speed = self.num_sp_m[num]
                             break
             elif search_command(sentence, ["加速", "早く"]):
+                say_file="sokudoage"
                 self.speed += 0.05
             elif search_command(sentence, ["減速", "ゆっくり"]):
+                say_file="sokudosage"
                 self.speed -= 0.05
             else:
                 self.direction = 0
+
+            SoundPlayer.play(say_file)
+            
 
         else:
             print("認識失敗")
