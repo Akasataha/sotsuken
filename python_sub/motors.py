@@ -28,6 +28,8 @@ def search_command(sentence: str, commands: list):
 class Motors:
     def __init__(self, pi: pigpio.pi):
         self.pi = pi
+
+        self.able=True
         self.num_sp_m = {
             "1": 0.05,
             "2": 0.075,
@@ -132,10 +134,15 @@ anglep:{self.angle_power},widths:{self.width_s}
             sentence = data.get("sentence1")
             say_file=""
             if search_command(sentence, ["終了"]):
+                self.able=False
                 say_file="syuryo"
+                asyncio.create_task(self.breaking())
             elif search_command(sentence, ["開始"]):
+                self.able=True
                 say_file="kaishi"
-            elif search_command(sentence, ["前進", "進め", "進んで", "進行"]):
+            if not self.able:
+                return
+            if search_command(sentence, ["前進", "進め", "進んで", "進行"]):
                 say_file="zenshin"
                 if self.direction == 0:
                     self.direction = 1
@@ -178,7 +185,7 @@ anglep:{self.angle_power},widths:{self.width_s}
                             say_file=f"kakudo{num}"
                             self.angle_power = self.num_sp_s[num]
                             break
-            elif search_command(sentence, ["スピード", "速度"]):
+            elif search_command(sentence, ["スピード", "速度","速さ"]):
                 if search_command(sentence, ["アップ", "上げて", "上がれ"]):
                     say_file="sokudoage"
                     self.speed += 0.1
